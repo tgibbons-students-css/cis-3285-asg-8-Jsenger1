@@ -31,7 +31,8 @@ namespace SingleResponsibilityPrinciple.Tests
                 return count;
             }
         }
-        [TestMethod()]
+        [TestMethod]
+        // As a user I want a program that adds valid trades to a database so that the user can see what trades are being made. 
         public void TestNormalFile()
         {
             //Arrange
@@ -49,6 +50,7 @@ namespace SingleResponsibilityPrinciple.Tests
             Assert.AreEqual(countBefore+4, countAfter);
         }
         [TestMethod]
+        // As a user I want a program that doesn't add bad trades to a databse so that all my trades can be legal.
         public void TestBadFile()
         {
             //Arrange
@@ -66,6 +68,7 @@ namespace SingleResponsibilityPrinciple.Tests
             Assert.AreEqual(countBefore, countAfter);
         }
         [TestMethod]
+        // As a user I want to have a check on trade amount so that I cannot buy a negative amount.
         public void TestTradeNegative()
         {
             //Arrange
@@ -83,6 +86,7 @@ namespace SingleResponsibilityPrinciple.Tests
 
         }
         [TestMethod]
+        // As a user I want to have a check on trade price so that I cannot break the system by entering in a very high number.
         public void TestLegalPrice()
         {
             //Arrange
