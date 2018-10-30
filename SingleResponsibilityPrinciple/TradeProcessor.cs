@@ -62,14 +62,14 @@ namespace SingleResponsibilityPrinciple
             }
 
             int tradeAmount;
-            if (!int.TryParse(fields[1], out tradeAmount))
+            if (!int.TryParse(fields[1], out tradeAmount) || tradeAmount < 0) // Fixed NegaiveTradeAmount right here 
             {
                 LogMessage("WARN: Trade amount on line {0} not a valid integer: '{1}'", currentLine, fields[1]);
                 return false;
             }
 
             decimal tradePrice;
-            if (!decimal.TryParse(fields[2], out tradePrice))
+            if (!decimal.TryParse(fields[2], out tradePrice) || tradePrice > 7000000)// fixed legalPrice right here
             {
                 LogMessage("WARN: Trade price on line {0} not a valid decimal: '{1}'", currentLine, fields[2]);
                 return false;
@@ -89,6 +89,7 @@ namespace SingleResponsibilityPrinciple
             var destinationCurrencyCode = fields[0].Substring(3, 3);
             var tradeAmount = int.Parse(fields[1]);
             var tradePrice = decimal.Parse(fields[2]);
+            float LotSize = 100000f; 
 
             var trade = new TradeRecord
             {
@@ -112,8 +113,8 @@ namespace SingleResponsibilityPrinciple
             //    The @ sign allows for back slashes
             //    Watch for double quotes which must be escaped using "" 
             //    Watch for extra spaces after C: and avoid paths with - hyphens -
-            //    using (var connection = new System.Data.SqlClient.SqlConnection(@"  ;"))
-            using (var connection = new System.Data.SqlClient.SqlConnection("Data Source=(local);Initial Catalog=TradeDatabase;Integrated Security=True;"))
+            using (var connection = new System.Data.SqlClient.SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\jsenger1\source\repos\cis-3285-asg-8-Jsenger1\tradedatabase.mdf"";Integrated Security=True;Connect Timeout=30  ;"))
+            //using (var connection = new System.Data.SqlClient.SqlConnection("Data Source=(local);Initial Catalog=TradeDatabase;Integrated Security=True;"))
             {
                 connection.Open();
                 using (var transaction = connection.BeginTransaction())
@@ -147,6 +148,6 @@ namespace SingleResponsibilityPrinciple
             StoreTrades(trades);
         }
 
-        private static float LotSize = 100000f;
+        
     }
 }
